@@ -3,8 +3,8 @@ session_start();
 
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'servercheck');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_USER', 'kira');
+define('DB_PASS', 'norazxz666');
 define('BASE_URL', '/');
 
 function dbConnection()
