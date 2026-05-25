@@ -1,0 +1,1 @@
+C:\Users\ACER\AppData\Local\Microsoft\WinGet\Packages\PHP.PHP.8.5_Microsoft.WinGet.Source_8wekyb3d8bbwe\php.exe C:\laragon\www\PAAS\checker.php

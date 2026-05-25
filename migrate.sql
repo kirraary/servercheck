@@ -1,0 +1,39 @@
+CREATE DATABASE IF NOT EXISTS uptime_monitor CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE uptime_monitor;
+
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    refresh_interval INT NOT NULL DEFAULT 5,
+    monitor_timeout INT NOT NULL DEFAULT 15,
+    theme VARCHAR(20) NOT NULL DEFAULT 'dark',
+    notifications_enabled TINYINT(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS websites (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    url VARCHAR(255) NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'unknown',
+    response_time INT DEFAULT NULL,
+    ip_address VARCHAR(100) DEFAULT NULL,
+    http_code INT DEFAULT NULL,
+    last_checked DATETIME DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY user_url_unique (user_id, url)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS monitor_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    website_id INT NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    response_time INT DEFAULT NULL,
+    ip_address VARCHAR(100) DEFAULT NULL,
+    http_code INT DEFAULT NULL,
+    error_message VARCHAR(255) DEFAULT NULL,
+    checked_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (website_id) REFERENCES websites(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
